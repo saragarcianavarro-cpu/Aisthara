@@ -1,2 +1,322 @@
-<h1>AISTHARA</h1>
-<p>La web funciona 🎉</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aisthara | Beauty, fragrance & gifts</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #faf7f2;
+      color: #292624;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 7%;
+      background: white;
+      border-bottom: 1px solid #eee8e1;
+    }
+
+    .logo {
+      font-family: Georgia, serif;
+      font-size: 30px;
+      letter-spacing: 5px;
+    }
+
+    nav {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #514b47;
+      font-size: 14px;
+    }
+
+    .language button {
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      font-weight: bold;
+      padding: 6px;
+    }
+
+    .hero {
+      min-height: 570px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 70px 20px;
+      background:
+        radial-gradient(circle at top left, #f7e9e6, transparent 40%),
+        radial-gradient(circle at bottom right, #eee6d8, transparent 40%);
+    }
+
+    .hero-content {
+      max-width: 800px;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 12px;
+      margin-bottom: 20px;
+      color: #897b72;
+    }
+
+    h1 {
+      font-family: Georgia, serif;
+      font-size: clamp(42px, 7vw, 78px);
+      font-weight: normal;
+      margin-bottom: 20px;
+    }
+
+    .subtitle {
+      font-size: 19px;
+      color: #706761;
+      line-height: 1.6;
+      max-width: 650px;
+      margin: auto;
+    }
+
+    .actions {
+      margin-top: 38px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 16px 27px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: .2s;
+    }
+
+    .btn-primary {
+      background: #292624;
+      color: white;
+    }
+
+    .btn-secondary {
+      border: 1px solid #292624;
+      color: #292624;
+      background: transparent;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .explore {
+      padding: 75px 7%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .explore h2 {
+      font-family: Georgia, serif;
+      font-size: 38px;
+      text-align: center;
+      font-weight: normal;
+      margin-bottom: 45px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      min-height: 210px;
+      background: white;
+      border: 1px solid #eee7df;
+      border-radius: 20px;
+      padding: 35px 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .card span {
+      font-size: 30px;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      font-family: Georgia, serif;
+      font-size: 23px;
+      margin-bottom: 7px;
+    }
+
+    .card p {
+      color: #77706b;
+      font-size: 14px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 35px;
+      border-top: 1px solid #eee7df;
+      font-size: 13px;
+      color: #857c75;
+    }
+
+    @media (max-width: 800px) {
+      nav a {
+        display: none;
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 500px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">AISTHARA</div>
+
+  <nav>
+    <a href="#" data-es="Perfumes" data-en="Perfumes">Perfumes</a>
+    <a href="#" data-es="Regalos" data-en="Gifts">Regalos</a>
+    <a href="#" data-es="Belleza" data-en="Beauty">Belleza</a>
+    <a href="#" data-es="Velas" data-en="Candles">Velas</a>
+
+    <div class="language">
+      <button onclick="changeLanguage('es')">ES</button>
+      |
+      <button onclick="changeLanguage('en')">EN</button>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+
+    <div class="eyebrow"
+         data-es="Belleza elegida para ti"
+         data-en="Beauty chosen for you">
+      Belleza elegida para ti
+    </div>
+
+    <h1
+      data-es="Encuentra lo que encaja contigo."
+      data-en="Find what feels like you.">
+      Encuentra lo que encaja contigo.
+    </h1>
+
+    <p class="subtitle"
+       data-es="Perfumes, belleza y regalos personalizados según tus gustos, estilo y presupuesto."
+       data-en="Perfume, beauty and gifts personalized to your taste, style and budget.">
+      Perfumes, belleza y regalos personalizados según tus gustos, estilo y presupuesto.
+    </p>
+
+    <div class="actions">
+
+      <a href="#" class="btn btn-primary"
+         data-es="🌸 Encuentra mi perfume"
+         data-en="🌸 Find my perfume">
+        🌸 Encuentra mi perfume
+      </a>
+
+      <a href="#" class="btn btn-secondary"
+         data-es="🎁 Encuentra el regalo perfecto"
+         data-en="🎁 Find the perfect gift">
+        🎁 Encuentra el regalo perfecto
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section class="explore">
+
+  <h2
+    data-es="Explora Aisthara"
+    data-en="Explore Aisthara">
+    Explora Aisthara
+  </h2>
+
+  <div class="cards">
+
+    <div class="card">
+      <span>🌸</span>
+      <h3 data-es="Perfumes" data-en="Perfumes">Perfumes</h3>
+      <p data-es="Encuentra aromas que encajan contigo."
+         data-en="Discover fragrances that match you.">
+        Encuentra aromas que encajan contigo.
+      </p>
+    </div>
+
+    <div class="card">
+      <span>🧴</span>
+      <h3 data-es="Skincare" data-en="Skincare">Skincare</h3>
+      <p data-es="Encuentra productos según tus preferencias."
+         data-en="Find products based on your preferences.">
+        Encuentra productos según tus preferencias.
+      </p>
+    </div>
+
+    <div class="card">
+      <span>💄</span>
+      <h3 data-es="Maquillaje" data-en="Makeup">Maquillaje</h3>
+      <p data-es="Descubre tu mejor match."
+         data-en="Discover your best match.">
+        Descubre tu mejor match.
+      </p>
+    </div>
+
+    <div class="card">
+      <span>🕯️</span>
+      <h3 data-es="Velas" data-en="Candles">Velas</h3>
+      <p data-es="Encuentra el aroma perfecto para cada ambiente."
+         data-en="Find the perfect scent for every mood.">
+        Encuentra el aroma perfecto para cada ambiente.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  © 2026 Aisthara
+</footer>
+
+<script>
+  function changeLanguage(language) {
+    document.documentElement.lang = language;
+
+    document.querySelectorAll("[data-es]").forEach(element => {
+      element.textContent = element.dataset[language];
+    });
+  }
+</script>
+
+</body>
+</html>
