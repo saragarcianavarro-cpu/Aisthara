@@ -1,1 +1,559 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aisthara — Administración</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #f6f4ef;
+      color: #222;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    header {
+      background: #181816;
+      color: white;
+      padding: 22px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: Georgia, serif;
+      font-size: 27px;
+      letter-spacing: 4px;
+    }
+
+    header span {
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    main {
+      max-width: 1250px;
+      margin: 45px auto;
+      padding: 0 25px;
+    }
+
+    .top {
+      margin-bottom: 35px;
+    }
+
+    .top h1 {
+      font-family: Georgia, serif;
+      font-weight: normal;
+      font-size: 38px;
+      margin: 0 0 8px;
+    }
+
+    .top p {
+      color: #777;
+      margin: 0;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 0.9fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 5px 25px rgba(0,0,0,.05);
+    }
+
+    h2 {
+      font-family: Georgia, serif;
+      font-weight: normal;
+      margin-top: 0;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+      margin: 18px 0 7px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #fff;
+      font: inherit;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #999;
+    }
+
+    textarea {
+      min-height: 85px;
+      resize: vertical;
+    }
+
+    .upload {
+      border: 1px dashed #bbb;
+      background: #fafafa;
+      padding: 22px;
+      border-radius: 10px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 13px 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .primary {
+      background: #181816;
+      color: white;
+      width: 100%;
+      margin-top: 25px;
+    }
+
+    .primary:hover {
+      background: #333;
+    }
+
+    .perfume {
+      display: grid;
+      grid-template-columns: 65px 1fr auto;
+      gap: 15px;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .perfume img {
+      width: 60px;
+      height: 70px;
+      object-fit: contain;
+      background: #f5f5f5;
+      border-radius: 8px;
+    }
+
+    .perfume h3 {
+      margin: 0 0 4px;
+      font-size: 15px;
+    }
+
+    .perfume p {
+      margin: 0;
+      color: #888;
+      font-size: 13px;
+    }
+
+    .actions button {
+      background: #eee;
+      padding: 7px 10px;
+      margin-left: 4px;
+    }
+
+    .delete {
+      color: #a32c2c;
+    }
+
+    #status {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #eef8ee;
+      font-size: 14px;
+    }
+
+    .counter {
+      color: #999;
+      font-size: 13px;
+      margin-bottom: 15px;
+    }
+
+    @media(max-width:850px) {
+      .layout { grid-template-columns: 1fr; }
+      .row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">AISTHARA</div>
+  <span>Perfume database</span>
+</header>
+
+<main>
+
+  <div class="top">
+    <h1>Perfumes</h1>
+    <p>Gestiona el catálogo utilizado por el recomendador de Aisthara.</p>
+  </div>
+
+  <div class="layout">
+
+    <section class="card">
+
+      <h2>Añadir perfume</h2>
+
+      <form id="perfumeForm">
+
+        <input type="hidden" id="perfumeId">
+
+        <div class="row">
+          <div>
+            <label>Nombre *</label>
+            <input id="name" required placeholder="Ej. This Is Her!">
+          </div>
+
+          <div>
+            <label>Marca *</label>
+            <input id="brand" required placeholder="Ej. Zadig & Voltaire">
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Género</label>
+            <select id="gender">
+              <option value="female">Mujer</option>
+              <option value="male">Hombre</option>
+              <option value="unisex">Unisex</option>
+            </select>
+          </div>
+
+          <div>
+            <label>Precio aproximado (€)</label>
+            <input id="price" type="number" step="0.01" placeholder="65">
+          </div>
+        </div>
+
+        <label>Foto</label>
+        <div class="upload">
+          <input id="image" type="file" accept="image/jpeg,image/png,image/webp">
+        </div>
+
+        <label>Descripción en español</label>
+        <textarea id="description_es"
+          placeholder="Describe brevemente cómo huele y qué sensación transmite."></textarea>
+
+        <label>Description in English</label>
+        <textarea id="description_en"
+          placeholder="Briefly describe the fragrance and the feeling it creates."></textarea>
+
+        <label>Notas principales</label>
+        <input id="notes_top"
+          placeholder="Vainilla, jazmín, sándalo...">
+
+        <label>Acordes principales</label>
+        <input id="accords"
+          placeholder="Vainilla, amaderado, floral, almizclado...">
+
+        <div class="row">
+          <div>
+            <label>Estilo</label>
+            <input id="styles"
+              placeholder="Limpio, elegante, sensual...">
+          </div>
+
+          <div>
+            <label>Ocasión</label>
+            <input id="occasion"
+              placeholder="Diario, oficina, noche...">
+          </div>
+        </div>
+
+        <label>Temporada</label>
+        <select id="season">
+          <option value="all">Todo el año</option>
+          <option value="spring">Primavera</option>
+          <option value="summer">Verano</option>
+          <option value="autumn">Otoño</option>
+          <option value="winter">Invierno</option>
+        </select>
+
+        <div class="row">
+          <div>
+            <label>Duración (1–5)</label>
+            <input id="longevity" type="number" min="1" max="5" value="3">
+          </div>
+
+          <div>
+            <label>Proyección (1–5)</label>
+            <input id="projection" type="number" min="1" max="5" value="3">
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Dulzor (1–5)</label>
+            <input id="sweetness" type="number" min="1" max="5" value="3">
+          </div>
+
+          <div>
+            <label>Frescura (1–5)</label>
+            <input id="freshness" type="number" min="1" max="5" value="3">
+          </div>
+        </div>
+
+        <button class="primary" type="submit">
+          Guardar perfume
+        </button>
+
+        <div id="status"></div>
+
+      </form>
+
+    </section>
+
+
+    <section class="card">
+
+      <h2>Perfumes publicados</h2>
+
+      <div class="counter" id="counter">
+        Cargando catálogo...
+      </div>
+
+      <div id="perfumeList"></div>
+
+    </section>
+
+  </div>
+
+</main>
+
+<script>
+
+const API = "/api/perfumes";
+
+const form = document.getElementById("perfumeForm");
+const list = document.getElementById("perfumeList");
+const counter = document.getElementById("counter");
+const statusBox = document.getElementById("status");
+
+
+function showStatus(message, error = false) {
+  statusBox.style.display = "block";
+  statusBox.style.background = error ? "#fdeeee" : "#eef8ee";
+  statusBox.textContent = message;
+}
+
+
+async function loadPerfumes() {
+
+  try {
+
+    const response = await fetch(API);
+    const perfumes = await response.json();
+
+    counter.textContent =
+      perfumes.length + (perfumes.length === 1 ? " perfume" : " perfumes");
+
+    list.innerHTML = "";
+
+    if (!perfumes.length) {
+      list.innerHTML = "<p>Todavía no hay perfumes.</p>";
+      return;
+    }
+
+    perfumes.forEach(p => {
+
+      const item = document.createElement("div");
+      item.className = "perfume";
+
+      const image = p.image_url
+        ? p.image_url
+        : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='70'%3E%3Crect width='100%25' height='100%25' fill='%23eee'/%3E%3C/svg%3E";
+
+      item.innerHTML = `
+        <img src="${image}" alt="">
+        <div>
+          <h3>${p.name}</h3>
+          <p>${p.brand}</p>
+        </div>
+
+        <div class="actions">
+          <button onclick="editPerfume(${p.id})">Editar</button>
+          <button class="delete" onclick="deletePerfume(${p.id})">×</button>
+        </div>
+      `;
+
+      list.appendChild(item);
+
+    });
+
+  } catch(error) {
+
+    counter.textContent = "No se pudo cargar el catálogo.";
+
+  }
+
+}
+
+
+form.addEventListener("submit", async e => {
+
+  e.preventDefault();
+
+  const data = new FormData();
+
+  const fields = [
+    "name",
+    "brand",
+    "gender",
+    "price",
+    "description_es",
+    "description_en",
+    "notes_top",
+    "accords",
+    "styles",
+    "occasion",
+    "season",
+    "longevity",
+    "projection",
+    "sweetness",
+    "freshness"
+  ];
+
+  fields.forEach(field => {
+    data.append(field, document.getElementById(field).value);
+  });
+
+  const image = document.getElementById("image").files[0];
+
+  if (image) {
+    data.append("image", image);
+  }
+
+  const id = document.getElementById("perfumeId").value;
+
+  try {
+
+    const response = await fetch(
+      id ? `${API}/${id}` : API,
+      {
+        method: id ? "PUT" : "POST",
+        body: data
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error();
+    }
+
+    showStatus(id
+      ? "Perfume actualizado correctamente."
+      : "Perfume añadido correctamente."
+    );
+
+    form.reset();
+    document.getElementById("perfumeId").value = "";
+
+    await loadPerfumes();
+
+  } catch(error) {
+
+    showStatus("No se ha podido guardar el perfume.", true);
+
+  }
+
+});
+
+
+async function deletePerfume(id) {
+
+  if (!confirm("¿Eliminar este perfume?")) return;
+
+  try {
+
+    const response = await fetch(`${API}/${id}`, {
+      method: "DELETE"
+    });
+
+    if (!response.ok) throw new Error();
+
+    await loadPerfumes();
+
+  } catch(error) {
+
+    alert("No se ha podido eliminar.");
+
+  }
+
+}
+
+
+async function editPerfume(id) {
+
+  try {
+
+    const response = await fetch(`${API}/${id}`);
+    const p = await response.json();
+
+    document.getElementById("perfumeId").value = p.id;
+
+    const fields = [
+      "name",
+      "brand",
+      "gender",
+      "price",
+      "description_es",
+      "description_en",
+      "notes_top",
+      "accords",
+      "styles",
+      "occasion",
+      "season",
+      "longevity",
+      "projection",
+      "sweetness",
+      "freshness"
+    ];
+
+    fields.forEach(field => {
+      document.getElementById(field).value = p[field] ?? "";
+    });
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  } catch(error) {
+
+    alert("No se ha podido cargar el perfume.");
+
+  }
+
+}
+
+
+loadPerfumes();
+
+</script>
+
+</body>
+</html>
