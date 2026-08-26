@@ -1082,7 +1082,7 @@ async function showResults() {
           : (p.description_en || p.description_es || "");
 
       const image = p.image_url
-        ? `<img src="${escapeHtml(p.image_url)}" alt="${escapeHtml(p.name)}">`
+        ? `<img src="${escapeHtml(p.image_url)}" alt="${escapeHtml(p.name)}" referrerpolicy="no-referrer" loading="lazy">`
         : `<div class="placeholder">AISTHARA</div>`;
 
       const price = Number(p.price);
