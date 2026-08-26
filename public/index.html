@@ -1,114 +1,1213 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Aisthara — Encuentra tu perfume</title>
-<style>
-:root{--bg:#faf7f2;--ink:#25211f;--muted:#746c66;--line:#ddd5ce;--accent:#815c4d;--soft:#f0e7e1}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif}button,input{font:inherit}
-header{display:flex;justify-content:space-between;align-items:center;padding:20px 6vw;border-bottom:1px solid var(--line);background:#fff}
-.brand{font:22px Georgia,serif;letter-spacing:.28em}.lang button{border:0;background:none;cursor:pointer;padding:6px}.lang .active{font-weight:700}
-.hero{text-align:center;max-width:900px;margin:auto;padding:72px 6vw 45px}.eyebrow{color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
-h1{font:400 clamp(48px,7vw,84px)/1 Georgia,serif;margin:16px 0 22px}.lead{max-width:680px;margin:auto;color:var(--muted);font-size:18px;line-height:1.6}
-.quizWrap{max-width:900px;margin:0 auto 90px;padding:0 5vw}.quiz{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden}
-.top{display:flex;gap:20px;align-items:center;padding:20px 26px;border-bottom:1px solid var(--line)}.bar{height:5px;background:#eee7e1;flex:1;border-radius:10px;overflow:hidden}.bar span{display:block;height:100%;width:25%;background:var(--accent)}
-.panel{display:none;padding:36px 28px}.panel.active{display:block}.panel h2{font:400 34px Georgia,serif;margin:0 0 8px}.panel p{color:var(--muted);margin:0 0 24px}
-.options{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.choice,.chip{border:1px solid var(--line);background:#fff;cursor:pointer}.choice{padding:17px;border-radius:14px;text-align:left}.choice.selected,.chip.selected{border-color:var(--accent);background:#f8f1ec}.choice strong{display:block}.choice small{color:var(--muted)}
-.chips{display:flex;flex-wrap:wrap;gap:10px}.chip{padding:11px 15px;border-radius:999px}.chip.selected{background:var(--ink);color:#fff}
-.actions{display:flex;justify-content:space-between;padding:0 28px 28px}.btn{min-height:48px;padding:0 22px;border-radius:999px;border:1px solid var(--ink);cursor:pointer;font-weight:700}.primary{background:var(--ink);color:#fff}.secondary{background:#fff}.btn:disabled{opacity:.4}
-.results{display:none;max-width:1100px;margin:0 auto 80px;padding:0 5vw}.results.show{display:block}.results h2{text-align:center;font:400 48px Georgia,serif;margin:0 0 10px}.results>p{text-align:center;color:var(--muted)}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px}.badge{font-size:11px;text-transform:uppercase;letter-spacing:.08em;background:var(--soft);padding:6px 9px;border-radius:999px}.score{float:right;font-weight:700;color:#4b6653}
-.card h3{font:400 25px Georgia,serif;margin:20px 0 4px}.brandName{color:var(--muted);font-size:14px}.meta{display:flex;gap:7px;flex-wrap:wrap;margin:16px 0}.meta span{background:#f6f2ee;padding:6px 9px;border-radius:999px;font-size:12px}.why{color:var(--muted);line-height:1.5}.price{margin-top:16px;font-weight:700}
-.restart{display:block;margin:28px auto 0}footer{text-align:center;padding:28px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
-@media(max-width:720px){.options,.cards{grid-template-columns:1fr}.hero{padding-top:55px}.panel{padding:28px 20px}.actions{padding:0 20px 24px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Aisthara — Encuentra tu perfume</title>
+  <meta name="description" content="Encuentra perfumes que encajan contigo según tus gustos, estilo y presupuesto.">
+
+  <style>
+    :root{
+      --bg:#faf7f2;
+      --paper:#fff;
+      --ink:#25211f;
+      --muted:#746c66;
+      --line:#ddd5ce;
+      --accent:#815c4d;
+      --soft:#f0e7e1;
+      --ok:#4b6653;
+    }
+
+    *{box-sizing:border-box}
+
+    html{scroll-behavior:smooth}
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:Arial,Helvetica,sans-serif;
+    }
+
+    button,input{font:inherit}
+
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:20px 6vw;
+      border-bottom:1px solid var(--line);
+      background:#fff;
+      position:sticky;
+      top:0;
+      z-index:20;
+    }
+
+    .brand{
+      font:22px Georgia,serif;
+      letter-spacing:.28em;
+    }
+
+    .lang button{
+      border:0;
+      background:none;
+      cursor:pointer;
+      padding:6px;
+      color:#8b837c;
+    }
+
+    .lang .active{
+      color:var(--ink);
+      font-weight:700;
+    }
+
+    .hero{
+      text-align:center;
+      max-width:920px;
+      margin:auto;
+      padding:72px 6vw 42px;
+    }
+
+    .eyebrow{
+      color:var(--accent);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
+
+    h1{
+      font:400 clamp(48px,7vw,84px)/1 Georgia,serif;
+      margin:16px 0 22px;
+    }
+
+    .lead{
+      max-width:700px;
+      margin:auto;
+      color:var(--muted);
+      font-size:18px;
+      line-height:1.65;
+    }
+
+    .trust{
+      margin-top:18px;
+      color:#948b84;
+      font-size:13px;
+    }
+
+    .quizWrap{
+      max-width:900px;
+      margin:0 auto 90px;
+      padding:0 5vw;
+    }
+
+    .quiz{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      overflow:hidden;
+    }
+
+    .top{
+      display:flex;
+      gap:20px;
+      align-items:center;
+      padding:20px 26px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .bar{
+      height:5px;
+      background:#eee7e1;
+      flex:1;
+      border-radius:10px;
+      overflow:hidden;
+    }
+
+    .bar span{
+      display:block;
+      height:100%;
+      width:25%;
+      background:var(--accent);
+      transition:.2s;
+    }
+
+    #count{
+      font-size:13px;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+
+    .panel{
+      display:none;
+      padding:36px 28px;
+    }
+
+    .panel.active{
+      display:block;
+    }
+
+    .panel h2{
+      font:400 34px Georgia,serif;
+      margin:0 0 8px;
+    }
+
+    .panel p{
+      color:var(--muted);
+      margin:0 0 24px;
+      line-height:1.55;
+    }
+
+    .options{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+    }
+
+    .choice,.chip{
+      border:1px solid var(--line);
+      background:#fff;
+      cursor:pointer;
+      transition:.15s;
+    }
+
+    .choice{
+      padding:17px;
+      border-radius:14px;
+      text-align:left;
+    }
+
+    .choice:hover,.chip:hover{
+      border-color:#b8a79d;
+    }
+
+    .choice.selected{
+      border-color:var(--accent);
+      background:#f8f1ec;
+    }
+
+    .choice strong{
+      display:block;
+      margin-bottom:4px;
+    }
+
+    .choice small{
+      color:var(--muted);
+    }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .chip{
+      padding:11px 15px;
+      border-radius:999px;
+    }
+
+    .chip.selected{
+      background:var(--ink);
+      color:#fff;
+      border-color:var(--ink);
+    }
+
+    .rangeValue{
+      text-align:center;
+      font:42px Georgia,serif;
+      margin:20px;
+    }
+
+    .actions{
+      display:flex;
+      justify-content:space-between;
+      padding:0 28px 28px;
+      gap:12px;
+    }
+
+    .btn{
+      min-height:48px;
+      padding:0 22px;
+      border-radius:999px;
+      border:1px solid var(--ink);
+      cursor:pointer;
+      font-weight:700;
+    }
+
+    .primary{
+      background:var(--ink);
+      color:#fff;
+    }
+
+    .secondary{
+      background:#fff;
+      color:var(--ink);
+    }
+
+    .btn:disabled{
+      opacity:.4;
+      cursor:not-allowed;
+    }
+
+    .loading{
+      display:none;
+      max-width:900px;
+      margin:0 auto 70px;
+      padding:0 5vw;
+      text-align:center;
+      color:var(--muted);
+    }
+
+    .loading.show{
+      display:block;
+    }
+
+    .spinner{
+      width:30px;
+      height:30px;
+      margin:0 auto 12px;
+      border:3px solid #e5ddd6;
+      border-top-color:var(--accent);
+      border-radius:50%;
+      animation:spin .8s linear infinite;
+    }
+
+    @keyframes spin{
+      to{transform:rotate(360deg)}
+    }
+
+    .results{
+      display:none;
+      max-width:1180px;
+      margin:0 auto 80px;
+      padding:0 5vw;
+    }
+
+    .results.show{
+      display:block;
+    }
+
+    .results h2{
+      text-align:center;
+      font:400 48px Georgia,serif;
+      margin:0 0 10px;
+    }
+
+    .results>p{
+      text-align:center;
+      color:var(--muted);
+      max-width:720px;
+      margin:0 auto;
+      line-height:1.55;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+      margin-top:30px;
+    }
+
+    .card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:22px;
+      min-width:0;
+    }
+
+    .cardImage{
+      width:100%;
+      aspect-ratio:4/3;
+      border-radius:14px;
+      background:#f6f2ee;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      margin-bottom:18px;
+    }
+
+    .cardImage img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      background:#fff;
+    }
+
+    .placeholder{
+      color:#aa9f97;
+      font:18px Georgia,serif;
+      letter-spacing:.08em;
+    }
+
+    .badge{
+      display:inline-block;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      background:var(--soft);
+      padding:6px 9px;
+      border-radius:999px;
+    }
+
+    .score{
+      float:right;
+      font-weight:700;
+      color:var(--ok);
+    }
+
+    .card h3{
+      font:400 25px Georgia,serif;
+      margin:20px 0 4px;
+      overflow-wrap:anywhere;
+    }
+
+    .brandName{
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .meta{
+      display:flex;
+      gap:7px;
+      flex-wrap:wrap;
+      margin:16px 0;
+    }
+
+    .meta span{
+      background:#f6f2ee;
+      padding:6px 9px;
+      border-radius:999px;
+      font-size:12px;
+    }
+
+    .why{
+      color:var(--muted);
+      line-height:1.5;
+      font-size:14px;
+    }
+
+    .description{
+      color:#5f5852;
+      line-height:1.55;
+      font-size:14px;
+      margin-top:12px;
+      display:-webkit-box;
+      -webkit-line-clamp:4;
+      -webkit-box-orient:vertical;
+      overflow:hidden;
+    }
+
+    .price{
+      margin-top:16px;
+      font-weight:700;
+    }
+
+    .unknown{
+      color:#9a918a;
+      font-weight:400;
+    }
+
+    .restart{
+      display:block;
+      margin:28px auto 0;
+    }
+
+    .errorBox{
+      display:none;
+      max-width:900px;
+      margin:0 auto 60px;
+      padding:16px 5vw;
+      color:#8c3030;
+      text-align:center;
+    }
+
+    .errorBox.show{
+      display:block;
+    }
+
+    footer{
+      text-align:center;
+      padding:28px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    @media(max-width:860px){
+      .cards{grid-template-columns:repeat(2,1fr)}
+    }
+
+    @media(max-width:720px){
+      .options,.cards{grid-template-columns:1fr}
+      .hero{padding-top:55px}
+      .panel{padding:28px 20px}
+      .actions{padding:0 20px 24px}
+    }
+  </style>
 </head>
+
 <body>
-<header><div class="brand">AISTHARA</div><div class="lang"><button id="esBtn" class="active">ES</button><button id="enBtn">EN</button></div></header>
+
+<header>
+  <div class="brand">AISTHARA</div>
+
+  <div class="lang">
+    <button id="esBtn" class="active" type="button">ES</button>
+    <button id="enBtn" type="button">EN</button>
+  </div>
+</header>
+
 
 <section class="hero">
-<div class="eyebrow" data-es="Perfume matching" data-en="Perfume matching">Perfume matching</div>
-<h1 data-es="Encuentra tu perfume en pocos clics." data-en="Find your fragrance in a few clicks.">Encuentra tu perfume en pocos clics.</h1>
-<p class="lead" data-es="Dinos qué te gusta, qué sensación buscas y cuánto quieres gastar. Aisthara compara tus preferencias con nuestra selección y te muestra los perfumes que más encajan contigo." data-en="Tell us what you like, the feeling you want and your budget. Aisthara compares your preferences with our selection and shows the fragrances that fit you best.">Dinos qué te gusta, qué sensación buscas y cuánto quieres gastar. Aisthara compara tus preferencias con nuestra selección y te muestra los perfumes que más encajan contigo.</p>
+  <div class="eyebrow"
+       data-es="Perfume matching"
+       data-en="Perfume matching">
+    Perfume matching
+  </div>
+
+  <h1
+    data-es="Encuentra tu perfume en pocos clics."
+    data-en="Find your fragrance in a few clicks.">
+    Encuentra tu perfume en pocos clics.
+  </h1>
+
+  <p class="lead"
+     data-es="Dinos qué te gusta, cómo quieres que huela y cuánto quieres gastar. Aisthara compara tus respuestas con nuestro catálogo y te enseña los perfumes que más encajan contigo."
+     data-en="Tell us what you like, how you want it to smell and your budget. Aisthara compares your answers with our catalogue and shows the fragrances that fit you best.">
+    Dinos qué te gusta, cómo quieres que huela y cuánto quieres gastar. Aisthara compara tus respuestas con nuestro catálogo y te enseña los perfumes que más encajan contigo.
+  </p>
+
+  <div class="trust"
+       data-es="Sin registro · Menos de 1 minuto · Resultados instantáneos"
+       data-en="No sign-up · Under 1 minute · Instant results">
+    Sin registro · Menos de 1 minuto · Resultados instantáneos
+  </div>
 </section>
+
 
 <section class="quizWrap">
-<div class="quiz">
-<div class="top"><div class="bar"><span id="bar"></span></div><div id="count">1 / 4</div></div>
+  <div class="quiz">
 
-<div class="panel active" data-step="1">
-<h2 data-es="¿Para quién buscas?" data-en="Who are you choosing for?">¿Para quién buscas?</h2>
-<p data-es="Empezamos por lo básico." data-en="Let's start with the basics.">Empezamos por lo básico.</p>
-<div class="options" id="genderOptions">
-<button class="choice" data-value="female"><strong data-es="Mujer" data-en="Women">Mujer</strong><small data-es="Femeninos y unisex" data-en="Women's and unisex">Femeninos y unisex</small></button>
-<button class="choice" data-value="male"><strong data-es="Hombre" data-en="Men">Hombre</strong><small data-es="Masculinos y unisex" data-en="Men's and unisex">Masculinos y unisex</small></button>
-<button class="choice" data-value="unisex"><strong>Unisex</strong><small data-es="Sin limitar por género" data-en="No gender filter">Sin limitar por género</small></button>
-<button class="choice" data-value="any"><strong data-es="Me da igual" data-en="No preference">Me da igual</strong><small data-es="Enséñame los mejores matches" data-en="Show me the best matches">Enséñame los mejores matches</small></button>
-</div></div>
+    <div class="top">
+      <div class="bar"><span id="bar"></span></div>
+      <div id="count">1 / 4</div>
+    </div>
 
-<div class="panel" data-step="2">
-<h2 data-es="¿Cómo quieres que huela?" data-en="How do you want it to feel?">¿Cómo quieres que huela?</h2>
-<p data-es="Elige hasta tres estilos." data-en="Choose up to three styles.">Elige hasta tres estilos.</p>
-<div class="chips" id="styleOptions">
-<button class="chip" data-value="clean" data-es="Limpio" data-en="Clean">Limpio</button><button class="chip" data-value="fresh" data-es="Fresco" data-en="Fresh">Fresco</button><button class="chip" data-value="sweet" data-es="Dulce" data-en="Sweet">Dulce</button><button class="chip" data-value="elegant" data-es="Elegante" data-en="Elegant">Elegante</button><button class="chip" data-value="sexy">Sexy</button><button class="chip" data-value="woody" data-es="Amaderado" data-en="Woody">Amaderado</button><button class="chip" data-value="floral">Floral</button><button class="chip" data-value="creamy" data-es="Cremoso" data-en="Creamy">Cremoso</button>
-</div></div>
 
-<div class="panel" data-step="3">
-<h2 data-es="¿Qué notas te atraen?" data-en="Which notes do you enjoy?">¿Qué notas te atraen?</h2>
-<p data-es="Marca las que te gusten. No necesitas saber de perfumería." data-en="Pick what you enjoy. No perfume expertise needed.">Marca las que te gusten. No necesitas saber de perfumería.</p>
-<div class="chips" id="noteOptions">
-<button class="chip" data-value="vanilla" data-es="Vainilla" data-en="Vanilla">Vainilla</button><button class="chip" data-value="musk" data-es="Almizcle" data-en="Musk">Almizcle</button><button class="chip" data-value="jasmine" data-es="Jazmín" data-en="Jasmine">Jazmín</button><button class="chip" data-value="rose" data-es="Rosa" data-en="Rose">Rosa</button><button class="chip" data-value="citrus" data-es="Cítricos" data-en="Citrus">Cítricos</button><button class="chip" data-value="woods" data-es="Maderas" data-en="Woods">Maderas</button><button class="chip" data-value="amber" data-es="Ámbar" data-en="Amber">Ámbar</button><button class="chip" data-value="coconut" data-es="Coco" data-en="Coconut">Coco</button><button class="chip" data-value="iris">Iris</button>
-</div></div>
+    <div class="panel active" data-step="1">
+      <h2
+        data-es="¿Para quién buscas?"
+        data-en="Who are you choosing for?">
+        ¿Para quién buscas?
+      </h2>
 
-<div class="panel" data-step="4">
-<h2 data-es="¿Cuál es tu presupuesto?" data-en="What's your budget?">¿Cuál es tu presupuesto?</h2>
-<p data-es="Lo usaremos para priorizar resultados." data-en="We'll use it to prioritize your results.">Lo usaremos para priorizar resultados.</p>
-<input id="budget" type="range" min="20" max="150" step="10" value="70" style="width:100%">
-<div style="text-align:center;font:42px Georgia,serif;margin:20px"><span id="budgetValue">70</span> €</div>
-</div>
+      <p
+        data-es="Empezamos por lo básico."
+        data-en="Let's start with the basics.">
+        Empezamos por lo básico.
+      </p>
 
-<div class="actions"><button class="btn secondary" id="backBtn" disabled data-es="Atrás" data-en="Back">Atrás</button><button class="btn primary" id="nextBtn" data-es="Siguiente" data-en="Next">Siguiente</button></div>
-</div></section>
+      <div class="options" id="genderOptions">
+
+        <button class="choice" data-value="female" type="button">
+          <strong data-es="Mujer" data-en="Women">Mujer</strong>
+          <small data-es="Femeninos y unisex" data-en="Women's and unisex">
+            Femeninos y unisex
+          </small>
+        </button>
+
+        <button class="choice" data-value="male" type="button">
+          <strong data-es="Hombre" data-en="Men">Hombre</strong>
+          <small data-es="Masculinos y unisex" data-en="Men's and unisex">
+            Masculinos y unisex
+          </small>
+        </button>
+
+        <button class="choice" data-value="unisex" type="button">
+          <strong>Unisex</strong>
+          <small data-es="Prioriza perfumes unisex" data-en="Prioritize unisex fragrances">
+            Prioriza perfumes unisex
+          </small>
+        </button>
+
+        <button class="choice" data-value="any" type="button">
+          <strong data-es="Me da igual" data-en="No preference">Me da igual</strong>
+          <small data-es="Sin filtro de género" data-en="No gender filter">
+            Sin filtro de género
+          </small>
+        </button>
+
+      </div>
+    </div>
+
+
+    <div class="panel" data-step="2">
+
+      <h2
+        data-es="¿Cómo quieres que huela?"
+        data-en="How do you want it to smell?">
+        ¿Cómo quieres que huela?
+      </h2>
+
+      <p
+        data-es="Elige hasta tres estilos."
+        data-en="Choose up to three styles.">
+        Elige hasta tres estilos.
+      </p>
+
+      <div class="chips" id="styleOptions">
+        <button class="chip" data-value="clean" data-es="Limpio" data-en="Clean" type="button">Limpio</button>
+        <button class="chip" data-value="fresh" data-es="Fresco" data-en="Fresh" type="button">Fresco</button>
+        <button class="chip" data-value="sweet" data-es="Dulce" data-en="Sweet" type="button">Dulce</button>
+        <button class="chip" data-value="elegant" data-es="Elegante" data-en="Elegant" type="button">Elegante</button>
+        <button class="chip" data-value="sexy" data-es="Sensual" data-en="Sexy" type="button">Sensual</button>
+        <button class="chip" data-value="woody" data-es="Amaderado" data-en="Woody" type="button">Amaderado</button>
+        <button class="chip" data-value="floral" data-es="Floral" data-en="Floral" type="button">Floral</button>
+        <button class="chip" data-value="creamy" data-es="Cremoso" data-en="Creamy" type="button">Cremoso</button>
+        <button class="chip" data-value="gourmand" data-es="Gourmand" data-en="Gourmand" type="button">Gourmand</button>
+        <button class="chip" data-value="smoky" data-es="Ahumado" data-en="Smoky" type="button">Ahumado</button>
+      </div>
+
+    </div>
+
+
+    <div class="panel" data-step="3">
+
+      <h2
+        data-es="¿Qué notas te atraen?"
+        data-en="Which notes do you enjoy?">
+        ¿Qué notas te atraen?
+      </h2>
+
+      <p
+        data-es="Marca las que te gusten. No necesitas saber de perfumería."
+        data-en="Pick what you enjoy. No perfume expertise needed.">
+        Marca las que te gusten. No necesitas saber de perfumería.
+      </p>
+
+      <div class="chips" id="noteOptions">
+        <button class="chip" data-value="vanilla" data-es="Vainilla" data-en="Vanilla" type="button">Vainilla</button>
+        <button class="chip" data-value="musk" data-es="Almizcle" data-en="Musk" type="button">Almizcle</button>
+        <button class="chip" data-value="jasmine" data-es="Jazmín" data-en="Jasmine" type="button">Jazmín</button>
+        <button class="chip" data-value="rose" data-es="Rosa" data-en="Rose" type="button">Rosa</button>
+        <button class="chip" data-value="citrus" data-es="Cítricos" data-en="Citrus" type="button">Cítricos</button>
+        <button class="chip" data-value="woods" data-es="Maderas" data-en="Woods" type="button">Maderas</button>
+        <button class="chip" data-value="amber" data-es="Ámbar" data-en="Amber" type="button">Ámbar</button>
+        <button class="chip" data-value="coconut" data-es="Coco" data-en="Coconut" type="button">Coco</button>
+        <button class="chip" data-value="iris" data-es="Iris" data-en="Iris" type="button">Iris</button>
+        <button class="chip" data-value="tobacco" data-es="Tabaco" data-en="Tobacco" type="button">Tabaco</button>
+        <button class="chip" data-value="coffee" data-es="Café" data-en="Coffee" type="button">Café</button>
+        <button class="chip" data-value="tea" data-es="Té" data-en="Tea" type="button">Té</button>
+      </div>
+
+    </div>
+
+
+    <div class="panel" data-step="4">
+
+      <h2
+        data-es="¿Cuál es tu presupuesto?"
+        data-en="What's your budget?">
+        ¿Cuál es tu presupuesto?
+      </h2>
+
+      <p
+        data-es="Si un perfume no tiene precio registrado, no lo descartaremos."
+        data-en="If a fragrance has no price saved yet, we won't exclude it.">
+        Si un perfume no tiene precio registrado, no lo descartaremos.
+      </p>
+
+      <input id="budget"
+             type="range"
+             min="20"
+             max="300"
+             step="10"
+             value="100"
+             style="width:100%">
+
+      <div class="rangeValue">
+        <span id="budgetValue">100</span> €
+      </div>
+
+    </div>
+
+
+    <div class="actions">
+      <button class="btn secondary"
+              id="backBtn"
+              disabled
+              data-es="Atrás"
+              data-en="Back"
+              type="button">
+        Atrás
+      </button>
+
+      <button class="btn primary"
+              id="nextBtn"
+              data-es="Siguiente"
+              data-en="Next"
+              type="button">
+        Siguiente
+      </button>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="loading" id="loading">
+  <div class="spinner"></div>
+  <div data-es="Buscando tus mejores matches..." data-en="Finding your best matches...">
+    Buscando tus mejores matches...
+  </div>
+</section>
+
+
+<section class="errorBox" id="errorBox"></section>
+
 
 <section class="results" id="results">
-<h2 data-es="Tus mejores matches" data-en="Your best matches">Tus mejores matches</h2>
-<p data-es="Primera prueba con una base pequeña de perfumes." data-en="First test using a small fragrance database.">Primera prueba con una base pequeña de perfumes.</p>
-<div class="cards" id="cards"></div>
-<button class="btn secondary restart" id="restartBtn" data-es="Volver a empezar" data-en="Start again">Volver a empezar</button>
+
+  <h2
+    data-es="Tus mejores matches"
+    data-en="Your best matches">
+    Tus mejores matches
+  </h2>
+
+  <p
+    data-es="Aisthara ha comparado tus preferencias con el catálogo disponible. Cuantos más datos tengamos de cada perfume, más precisa será la recomendación."
+    data-en="Aisthara compared your preferences with the available catalogue. The more data we have for each fragrance, the more precise the recommendation becomes.">
+    Aisthara ha comparado tus preferencias con el catálogo disponible. Cuantos más datos tengamos de cada perfume, más precisa será la recomendación.
+  </p>
+
+  <div class="cards" id="cards"></div>
+
+  <button class="btn secondary restart"
+          id="restartBtn"
+          data-es="Volver a empezar"
+          data-en="Start again"
+          type="button">
+    Volver a empezar
+  </button>
+
 </section>
+
 
 <footer>© 2026 Aisthara</footer>
 
-<script>
-const perfumes=[
-{name:"This Is Her!",brand:"Zadig & Voltaire",gender:["female"],price:70,styles:["sweet","creamy","clean"],notes:["vanilla","woods","musk"]},
-{name:"Hypnotic Vanilla",brand:"Zara",gender:["female"],price:23,styles:["sweet","creamy"],notes:["vanilla","woods"]},
-{name:"Libre Eau de Parfum",brand:"Yves Saint Laurent",gender:["female"],price:95,styles:["elegant","sexy","floral"],notes:["vanilla","jasmine","citrus"]},
-{name:"My Way Eau de Parfum",brand:"Giorgio Armani",gender:["female"],price:90,styles:["floral","elegant","sweet"],notes:["jasmine","citrus","vanilla"]},
-{name:"Pure Musc",brand:"Narciso Rodriguez",gender:["female"],price:80,styles:["clean","elegant"],notes:["musk"]},
-{name:"L'Eau d'Issey",brand:"Issey Miyake",gender:["female"],price:65,styles:["fresh","clean","floral"],notes:["citrus"]},
-{name:"Infusion d'Iris",brand:"Prada",gender:["female","unisex"],price:105,styles:["clean","elegant","fresh"],notes:["iris","citrus","woods"]},
-{name:"Yara",brand:"Lattafa",gender:["female"],price:28,styles:["sweet","creamy"],notes:["vanilla","coconut"]},
-{name:"Bleu de Chanel",brand:"Chanel",gender:["male"],price:115,styles:["fresh","elegant","woody"],notes:["citrus","woods","amber"]},
-{name:"Terre d'Hermès",brand:"Hermès",gender:["male"],price:85,styles:["woody","fresh","elegant"],notes:["citrus","woods"]},
-{name:"Explorer",brand:"Montblanc",gender:["male"],price:50,styles:["woody","fresh"],notes:["woods","citrus","amber"]},
-{name:"CK One",brand:"Calvin Klein",gender:["unisex"],price:35,styles:["fresh","clean"],notes:["citrus","musk"]}
-];
 
-let lang="es",step=1;const ans={gender:null,styles:[],notes:[],budget:70};
-const t=(a,b)=>lang==="es"?a:b;
-function show(){document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",+p.dataset.step===step));bar.style.width=(step*25)+"%";count.textContent=step+" / 4";backBtn.disabled=step===1;nextBtn.textContent=step===4?t("Ver mis perfumes","Show my matches"):t("Siguiente","Next")}
-document.querySelectorAll("#genderOptions .choice").forEach(b=>b.onclick=()=>{document.querySelectorAll("#genderOptions .choice").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");ans.gender=b.dataset.value});
-document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{let key=b.parentElement.id==="styleOptions"?"styles":"notes",arr=ans[key],v=b.dataset.value;if(arr.includes(v)){ans[key]=arr.filter(x=>x!==v);b.classList.remove("selected")}else{if(key==="styles"&&arr.length>=3)return;ans[key].push(v);b.classList.add("selected")}});
-budget.oninput=()=>{ans.budget=+budget.value;budgetValue.textContent=budget.value};
-backBtn.onclick=()=>{if(step>1){step--;show()}};
-nextBtn.onclick=()=>{if(step===1&&!ans.gender){alert(t("Elige una opción.","Choose an option."));return}if(step<4){step++;show()}else results()};
-function score(p){let s=35;if(ans.gender==="any")s+=5;else if((p.gender.includes(ans.gender)||p.gender.includes("unisex")))s+=18;else s-=30;ans.styles.forEach(x=>{if(p.styles.includes(x))s+=9});ans.notes.forEach(x=>{if(p.notes.includes(x))s+=7});if(p.price<=ans.budget)s+=12;else s-=Math.min(18,(p.price-ans.budget)/5);return Math.max(1,Math.min(98,Math.round(s)))}
-function results(){let list=perfumes.map(p=>({...p,score:score(p)})).sort((a,b)=>b.score-a.score).slice(0,6);cards.innerHTML=list.map((p,i)=>`<article class="card"><span class="badge">${i===0?t("Mejor match","Best match"):t("Alternativa","Alternative")}</span><span class="score">${p.score}%</span><h3>${p.name}</h3><div class="brandName">${p.brand}</div><div class="meta">${p.styles.slice(0,3).map(x=>`<span>${x}</span>`).join("")}</div><div class="why">${t("Encaja por estilo, notas y presupuesto según tus respuestas.","Matches your style, notes and budget based on your answers.")}</div><div class="price">≈ ${p.price} €</div></article>`).join("");document.querySelector(".quizWrap").style.display="none";document.getElementById("results").classList.add("show");document.getElementById("results").scrollIntoView({behavior:"smooth"})}
-restartBtn.onclick=()=>location.reload();
-function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll("[data-es][data-en]").forEach(el=>el.textContent=el.dataset[l]);esBtn.classList.toggle("active",l==="es");enBtn.classList.toggle("active",l==="en");show()}
-esBtn.onclick=()=>setLang("es");enBtn.onclick=()=>setLang("en");show();
+<script>
+let lang = "es";
+let step = 1;
+let perfumes = [];
+
+const answers = {
+  gender: null,
+  styles: [],
+  notes: [],
+  budget: 100
+};
+
+const styleTerms = {
+  clean: ["clean","limpio","almizclado","musk","iris","powdery","empolvado"],
+  fresh: ["fresh","fresco","citric","citrus","cítrico","acuático","aquatic","verde","green"],
+  sweet: ["sweet","dulce","vanilla","vainilla","gourmand","caramel","praline","honey","azúcar","sugar"],
+  elegant: ["elegant","elegante","sofisticado","sophisticated","iris","rose","rosa","woody","amaderado"],
+  sexy: ["sexy","sensual","amber","ámbar","vanilla","vainilla","tobacco","tabaco","spicy","especiado"],
+  woody: ["woody","amaderado","woods","maderas","cedar","cedro","sandalwood","sándalo","oud","vetiver","patchouli","pachulí"],
+  floral: ["floral","jasmine","jazmín","rose","rosa","tuberose","tuberosa","iris","peony","peonía","ylang"],
+  creamy: ["creamy","cremoso","vanilla","vainilla","sandalwood","sándalo","coconut","coco","tonka"],
+  gourmand: ["gourmand","vanilla","vainilla","caramel","chocolate","coffee","café","praline","honey","miel","tonka"],
+  smoky: ["smoky","ahumado","smoke","humo","incense","incienso","tobacco","tabaco","frankincense","myrrh"]
+};
+
+const noteTerms = {
+  vanilla: ["vanilla","vainilla"],
+  musk: ["musk","almizcle","almizclado"],
+  jasmine: ["jasmine","jazmín","jazmin"],
+  rose: ["rose","rosa"],
+  citrus: ["citrus","cítrico","citric","bergamot","bergamota","lemon","limón","orange","naranja","mandarin","mandarina","grapefruit","pomelo","yuzu"],
+  woods: ["woods","maderas","woody","amaderado","cedar","cedro","sandalwood","sándalo","oud","vetiver","patchouli","pachulí","guaiac"],
+  amber: ["amber","ámbar","ambergris","labdanum","benzoin","benjuí"],
+  coconut: ["coconut","coco"],
+  iris: ["iris","orris"],
+  tobacco: ["tobacco","tabaco"],
+  coffee: ["coffee","café","cafe"],
+  tea: ["tea","té","te verde","green tea"]
+};
+
+const t = (es, en) => lang === "es" ? es : en;
+
+function normalizeText(value) {
+  return (value || "")
+    .toString()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function perfumeCorpus(p) {
+  return normalizeText([
+    p.name,
+    p.brand,
+    p.notes_top,
+    p.notes_heart,
+    p.notes_base,
+    p.accords,
+    p.styles,
+    p.description_es,
+    p.description_en
+  ].filter(Boolean).join(" "));
+}
+
+function containsAny(corpus, terms) {
+  const normalizedTerms = terms.map(normalizeText);
+  return normalizedTerms.some(term => corpus.includes(term));
+}
+
+async function loadPerfumes() {
+  const response = await fetch("/api/perfumes", {
+    headers: { "Accept": "application/json" }
+  });
+
+  if (!response.ok) {
+    throw new Error("API error " + response.status);
+  }
+
+  const data = await response.json();
+
+  if (!Array.isArray(data)) {
+    throw new Error("Invalid API response");
+  }
+
+  perfumes = data;
+}
+
+function showStep() {
+  document.querySelectorAll(".panel").forEach(panel => {
+    panel.classList.toggle(
+      "active",
+      Number(panel.dataset.step) === step
+    );
+  });
+
+  document.getElementById("bar").style.width = (step * 25) + "%";
+  document.getElementById("count").textContent = step + " / 4";
+
+  const backBtn = document.getElementById("backBtn");
+  const nextBtn = document.getElementById("nextBtn");
+
+  backBtn.disabled = step === 1;
+
+  nextBtn.textContent =
+    step === 4
+      ? t("Ver mis perfumes", "Show my matches")
+      : t("Siguiente", "Next");
+}
+
+document.querySelectorAll("#genderOptions .choice").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll("#genderOptions .choice").forEach(x => {
+      x.classList.remove("selected");
+    });
+
+    button.classList.add("selected");
+    answers.gender = button.dataset.value;
+  });
+});
+
+document.querySelectorAll(".chip").forEach(button => {
+  button.addEventListener("click", () => {
+    const key =
+      button.parentElement.id === "styleOptions"
+        ? "styles"
+        : "notes";
+
+    const value = button.dataset.value;
+    const current = answers[key];
+
+    if (current.includes(value)) {
+      answers[key] = current.filter(x => x !== value);
+      button.classList.remove("selected");
+      return;
+    }
+
+    if (key === "styles" && current.length >= 3) {
+      return;
+    }
+
+    answers[key].push(value);
+    button.classList.add("selected");
+  });
+});
+
+document.getElementById("budget").addEventListener("input", event => {
+  answers.budget = Number(event.target.value);
+  document.getElementById("budgetValue").textContent = event.target.value;
+});
+
+document.getElementById("backBtn").addEventListener("click", () => {
+  if (step > 1) {
+    step--;
+    showStep();
+  }
+});
+
+document.getElementById("nextBtn").addEventListener("click", async () => {
+  if (step === 1 && !answers.gender) {
+    alert(t("Elige una opción.", "Choose an option."));
+    return;
+  }
+
+  if (step < 4) {
+    step++;
+    showStep();
+    return;
+  }
+
+  await showResults();
+});
+
+function scorePerfume(p) {
+  const corpus = perfumeCorpus(p);
+
+  let score = 0;
+  let evidence = 0;
+
+  // Gender: unknown gender is neutral, not punished.
+  const gender = normalizeText(p.gender);
+
+  if (answers.gender === "any") {
+    score += 4;
+  } else if (!gender) {
+    score += 2;
+  } else if (answers.gender === "unisex") {
+    if (gender.includes("unisex")) {
+      score += 18;
+      evidence += 1;
+    }
+  } else {
+    if (gender.includes(answers.gender) || gender.includes("unisex")) {
+      score += 18;
+      evidence += 1;
+    } else {
+      score -= 22;
+    }
+  }
+
+  // Styles
+  answers.styles.forEach(style => {
+    if (containsAny(corpus, styleTerms[style] || [style])) {
+      score += 12;
+      evidence += 1;
+    }
+  });
+
+  // Notes
+  answers.notes.forEach(note => {
+    if (containsAny(corpus, noteTerms[note] || [note])) {
+      score += 11;
+      evidence += 1;
+    }
+  });
+
+  // Budget: unknown price stays neutral.
+  const price = Number(p.price);
+
+  if (Number.isFinite(price) && price > 0) {
+    if (price <= answers.budget) {
+      score += 10;
+      evidence += 1;
+    } else {
+      const over = price - answers.budget;
+      score -= Math.min(16, over / 10);
+    }
+  }
+
+  // Slight quality bonus for richer records.
+  if (p.description_es || p.description_en) score += 2;
+  if (p.notes_top) score += 2;
+  if (p.accords) score += 2;
+
+  // Records with no meaningful matching evidence should not rank absurdly high.
+  if (answers.styles.length + answers.notes.length > 0 && evidence === 0) {
+    score -= 20;
+  }
+
+  return score;
+}
+
+function scoreToPercent(rawScore, maxRaw, minRaw) {
+  if (maxRaw === minRaw) return 80;
+
+  const normalized =
+    68 + ((rawScore - minRaw) / (maxRaw - minRaw)) * 30;
+
+  return Math.max(55, Math.min(98, Math.round(normalized)));
+}
+
+function labelsForPerfume(p) {
+  const corpus = perfumeCorpus(p);
+  const labels = [];
+
+  for (const [key, terms] of Object.entries(styleTerms)) {
+    if (containsAny(corpus, terms)) {
+      const map = {
+        clean: t("Limpio","Clean"),
+        fresh: t("Fresco","Fresh"),
+        sweet: t("Dulce","Sweet"),
+        elegant: t("Elegante","Elegant"),
+        sexy: t("Sensual","Sexy"),
+        woody: t("Amaderado","Woody"),
+        floral: t("Floral","Floral"),
+        creamy: t("Cremoso","Creamy"),
+        gourmand: t("Gourmand","Gourmand"),
+        smoky: t("Ahumado","Smoky")
+      };
+
+      labels.push(map[key]);
+
+      if (labels.length >= 3) break;
+    }
+  }
+
+  return labels;
+}
+
+function explanationFor(p) {
+  const corpus = perfumeCorpus(p);
+  const reasons = [];
+
+  const styleMatches = answers.styles.filter(style =>
+    containsAny(corpus, styleTerms[style] || [style])
+  );
+
+  const noteMatches = answers.notes.filter(note =>
+    containsAny(corpus, noteTerms[note] || [note])
+  );
+
+  if (styleMatches.length) {
+    reasons.push(
+      t(
+        "encaja con el estilo que buscas",
+        "it matches the style you want"
+      )
+    );
+  }
+
+  if (noteMatches.length) {
+    reasons.push(
+      t(
+        "incluye varias notas que te atraen",
+        "it includes several notes you enjoy"
+      )
+    );
+  }
+
+  const price = Number(p.price);
+
+  if (Number.isFinite(price) && price > 0 && price <= answers.budget) {
+    reasons.push(
+      t(
+        "entra en tu presupuesto",
+        "it fits your budget"
+      )
+    );
+  }
+
+  if (!reasons.length) {
+    reasons.push(
+      t(
+        "es uno de los perfiles más cercanos dentro del catálogo disponible",
+        "it is one of the closest profiles in the available catalogue"
+      )
+    );
+  }
+
+  return reasons.join(t(", y ", ", and "));
+}
+
+function escapeHtml(value) {
+  return (value || "")
+    .toString()
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+async function showResults() {
+  const quizWrap = document.querySelector(".quizWrap");
+  const loading = document.getElementById("loading");
+  const resultsSection = document.getElementById("results");
+  const errorBox = document.getElementById("errorBox");
+
+  quizWrap.style.display = "none";
+  errorBox.classList.remove("show");
+  loading.classList.add("show");
+
+  try {
+    if (!perfumes.length) {
+      await loadPerfumes();
+    }
+
+    if (!perfumes.length) {
+      throw new Error("Empty catalogue");
+    }
+
+    const ranked = perfumes
+      .map(p => ({
+        ...p,
+        rawScore: scorePerfume(p)
+      }))
+      .sort((a, b) => b.rawScore - a.rawScore);
+
+    const top = ranked.slice(0, 6);
+
+    const maxRaw = top[0]?.rawScore ?? 1;
+    const minRaw = top[top.length - 1]?.rawScore ?? 0;
+
+    const cards = document.getElementById("cards");
+
+    cards.innerHTML = top.map((p, index) => {
+      const percent = scoreToPercent(p.rawScore, maxRaw, minRaw);
+      const labels = labelsForPerfume(p);
+
+      const description =
+        lang === "es"
+          ? (p.description_es || p.description_en || "")
+          : (p.description_en || p.description_es || "");
+
+      const image = p.image_url
+        ? `<img src="${escapeHtml(p.image_url)}" alt="${escapeHtml(p.name)}">`
+        : `<div class="placeholder">AISTHARA</div>`;
+
+      const price = Number(p.price);
+
+      const priceHtml =
+        Number.isFinite(price) && price > 0
+          ? `≈ ${price.toFixed(0)} €`
+          : `<span class="unknown">${t("Precio pendiente","Price pending")}</span>`;
+
+      const badge =
+        index === 0
+          ? t("Mejor match","Best match")
+          : index === 1
+          ? t("2ª opción","Second choice")
+          : t("También encaja","Also a match");
+
+      return `
+        <article class="card">
+          <div class="cardImage">${image}</div>
+
+          <span class="badge">${badge}</span>
+          <span class="score">${percent}%</span>
+
+          <h3>${escapeHtml(p.name)}</h3>
+          <div class="brandName">${escapeHtml(p.brand)}</div>
+
+          <div class="meta">
+            ${labels.map(label => `<span>${escapeHtml(label)}</span>`).join("")}
+          </div>
+
+          <div class="why">
+            ${t("Te lo recomendamos porque ","We recommend it because ")}
+            ${escapeHtml(explanationFor(p))}.
+          </div>
+
+          ${
+            description
+              ? `<div class="description">${escapeHtml(description)}</div>`
+              : ""
+          }
+
+          <div class="price">${priceHtml}</div>
+        </article>
+      `;
+    }).join("");
+
+    loading.classList.remove("show");
+    resultsSection.classList.add("show");
+    resultsSection.scrollIntoView({ behavior: "smooth" });
+
+  } catch (error) {
+    console.error(error);
+
+    loading.classList.remove("show");
+
+    errorBox.textContent =
+      t(
+        "No hemos podido cargar el catálogo. Inténtalo de nuevo en unos segundos.",
+        "We couldn't load the catalogue. Please try again in a few seconds."
+      );
+
+    errorBox.classList.add("show");
+    quizWrap.style.display = "block";
+  }
+}
+
+document.getElementById("restartBtn").addEventListener("click", () => {
+  answers.gender = null;
+  answers.styles = [];
+  answers.notes = [];
+  answers.budget = 100;
+
+  document.querySelectorAll(".selected").forEach(x => {
+    x.classList.remove("selected");
+  });
+
+  document.getElementById("budget").value = 100;
+  document.getElementById("budgetValue").textContent = "100";
+
+  document.getElementById("results").classList.remove("show");
+  document.querySelector(".quizWrap").style.display = "block";
+
+  step = 1;
+  showStep();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
+
+function setLang(newLang) {
+  lang = newLang;
+  document.documentElement.lang = newLang;
+
+  document.querySelectorAll("[data-es][data-en]").forEach(element => {
+    element.textContent = element.dataset[newLang];
+  });
+
+  document.getElementById("esBtn")
+    .classList.toggle("active", newLang === "es");
+
+  document.getElementById("enBtn")
+    .classList.toggle("active", newLang === "en");
+
+  showStep();
+
+  if (document.getElementById("results").classList.contains("show")) {
+    showResults();
+  }
+
+  document.title =
+    newLang === "es"
+      ? "Aisthara — Encuentra tu perfume"
+      : "Aisthara — Find your fragrance";
+}
+
+document.getElementById("esBtn")
+  .addEventListener("click", () => setLang("es"));
+
+document.getElementById("enBtn")
+  .addEventListener("click", () => setLang("en"));
+
+showStep();
 </script>
+
 </body>
 </html>
