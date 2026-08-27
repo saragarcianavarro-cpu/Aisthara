@@ -1,1 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Aisthara — Perfume</title>
+  <meta name="description" content="Ficha de perfume en Aisthara">
 
+  <style>
+    :root{
+      --bg:#faf7f2;
+      --paper:#fff;
+      --ink:#25211f;
+      --muted:#746c66;
+      --line:#ddd5ce;
+      --accent:#815c4d;
+      --soft:#f0e7e1;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:Arial,Helvetica,sans-serif;
+    }
+
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:20px 6vw;
+      border-bottom:1px solid var(--line);
+      background:#fff;
+    }
+
+    .brand{
+      font:22px Georgia,serif;
+      letter-spacing:.28em;
+      cursor:pointer;
+    }
+
+    .lang button{
+      border:0;
+      background:none;
+      cursor:pointer;
+      padding:6px;
+      color:#8b837c;
+    }
+
+    .lang .active{
+      color:var(--ink);
+      font-weight:700;
+    }
+
+    main{
+      max-width:1100px;
+      margin:50px auto 80px;
+      padding:0 5vw;
+    }
+
+    .back{
+      display:inline-block;
+      margin-bottom:28px;
+      color:var(--muted);
+      text-decoration:none;
+      font-size:14px;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns:420px 1fr;
+      gap:50px;
+      align-items:start;
+    }
+
+    .imageBox{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      min-height:480px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+
+    .imageBox img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      padding:25px;
+    }
+
+    .placeholder{
+      font:22px Georgia,serif;
+      letter-spacing:.15em;
+      color:#aaa;
+    }
+
+    .brandName{
+      color:var(--accent);
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      margin-bottom:10px;
+    }
+
+    h1{
+      font:400 clamp(42px,6vw,72px)/1 Georgia,serif;
+      margin:0 0 18px;
+    }
+
+    .description{
+      color:var(--muted);
+      line-height:1.7;
+      font-size:17px;
+    }
+
+    .section{
+      margin-top:35px;
+      padding-top:25px;
+      border-top:1px solid var(--line);
+    }
+
+    .section h2{
+      font:400 28px Georgia,serif;
+      margin:0 0 15px;
+    }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+    }
+
+    .chip{
+      background:var(--soft);
+      padding:8px 11px;
+      border-radius:999px;
+      font-size:13px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+    }
+
+    .info{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:16px;
+    }
+
+    .info small{
+      display:block;
+      color:var(--muted);
+      margin-bottom:5px;
+      text-transform:uppercase;
+      font-size:11px;
+      letter-spacing:.06em;
+    }
+
+    .compare{
+      margin-top:35px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:24px;
+    }
+
+    .compare h2{
+      font:400 28px Georgia,serif;
+      margin:0 0 8px;
+    }
+
+    .compare p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    .loading,.error{
+      text-align:center;
+      padding:80px 20px;
+      color:var(--muted);
+    }
+
+    @media(max-width:800px){
+      .layout{
+        grid-template-columns:1fr;
+      }
+
+      .imageBox{
+        min-height:360px;
+      }
+
+      .grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand" onclick="location.href='/'">AISTHARA</div>
+
+  <div class="lang">
+    <button id="esBtn" class="active">ES</button>
+    <button id="enBtn">EN</button>
+  </div>
+</header>
+
+<main id="app">
+  <div class="loading">Cargando perfume...</div>
+</main>
+
+<script>
+let lang = "es";
+let perfume = null;
+
+const t = (es,en) => lang === "es" ? es : en;
+
+function escapeHtml(value){
+  return (value || "")
+    .toString()
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function splitTags(value){
+  return (value || "")
+    .split(",")
+    .map(x => x.trim())
+    .filter(Boolean);
+}
+
+function render(){
+  const app = document.getElementById("app");
+
+  if(!perfume){
+    app.innerHTML = `<div class="error">${t("Perfume no encontrado.","Fragrance not found.")}</div>`;
+    return;
+  }
+
+  const description =
+    lang === "es"
+      ? (perfume.description_es || perfume.description_en || "")
+      : (perfume.description_en || perfume.description_es || "");
+
+  const image = perfume.image_url
+    ? `<img src="${escapeHtml(perfume.image_url)}"
+            alt="${escapeHtml(perfume.name)}"
+            referrerpolicy="no-referrer"
+            loading="lazy">`
+    : `<div class="placeholder">AISTHARA</div>`;
+
+  const notes = [
+    ...splitTags(perfume.notes_top),
+    ...splitTags(perfume.notes_heart),
+    ...splitTags(perfume.notes_base)
+  ];
+
+  const accords = splitTags(perfume.accords);
+
+  app.innerHTML = `
+    <a href="/" class="back">← ${t("Volver al buscador","Back to finder")}</a>
+
+    <div class="layout">
+
+      <div class="imageBox">
+        ${image}
+      </div>
+
+      <div>
+        <div class="brandName">${escapeHtml(perfume.brand)}</div>
+
+        <h1>${escapeHtml(perfume.name)}</h1>
+
+        ${description ? `
+          <div class="description">
+            ${escapeHtml(description)}
+          </div>
+        ` : ""}
+
+        ${accords.length ? `
+          <div class="section">
+            <h2>${t("Acordes principales","Main accords")}</h2>
+            <div class="chips">
+              ${accords.map(x => `<span class="chip">${escapeHtml(x)}</span>`).join("")}
+            </div>
+          </div>
+        ` : ""}
+
+        ${notes.length ? `
+          <div class="section">
+            <h2>${t("Notas","Notes")}</h2>
+            <div class="chips">
+              ${notes.map(x => `<span class="chip">${escapeHtml(x)}</span>`).join("")}
+            </div>
+          </div>
+        ` : ""}
+
+        <div class="section">
+          <div class="grid">
+
+            ${perfume.gender ? `
+              <div class="info">
+                <small>${t("Género","Gender")}</small>
+                ${escapeHtml(perfume.gender)}
+              </div>
+            ` : ""}
+
+            ${perfume.season ? `
+              <div class="info">
+                <small>${t("Temporada","Season")}</small>
+                ${escapeHtml(perfume.season)}
+              </div>
+            ` : ""}
+
+            ${perfume.occasion ? `
+              <div class="info">
+                <small>${t("Ocasión","Occasion")}</small>
+                ${escapeHtml(perfume.occasion)}
+              </div>
+            ` : ""}
+
+            ${perfume.longevity ? `
+              <div class="info">
+                <small>${t("Duración","Longevity")}</small>
+                ${escapeHtml(perfume.longevity)}
+              </div>
+            ` : ""}
+
+            ${perfume.projection ? `
+              <div class="info">
+                <small>${t("Proyección","Projection")}</small>
+                ${escapeHtml(perfume.projection)}
+              </div>
+            ` : ""}
+
+          </div>
+        </div>
+
+        <div class="compare">
+          <h2>${t("Comparar precios","Compare prices")}</h2>
+          <p>
+            ${t(
+              "Próximamente podrás ver aquí las mejores ofertas disponibles para este perfume.",
+              "Soon you'll be able to see the best available offers for this fragrance here."
+            )}
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+  document.title = `${perfume.name} — Aisthara`;
+}
+
+async function loadPerfume(){
+  const params = new URLSearchParams(location.search);
+  const id = params.get("id");
+
+  if(!id){
+    render();
+    return;
+  }
+
+  try{
+    const response = await fetch(`/api/perfumes/${id}`);
+
+    if(!response.ok){
+      throw new Error();
+    }
+
+    perfume = await response.json();
+    render();
+
+  }catch{
+    perfume = null;
+    render();
+  }
+}
+
+function setLang(newLang){
+  lang = newLang;
+
+  document.documentElement.lang = newLang;
+
+  document.getElementById("esBtn")
+    .classList.toggle("active", newLang === "es");
+
+  document.getElementById("enBtn")
+    .classList.toggle("active", newLang === "en");
+
+  render();
+}
+
+document.getElementById("esBtn")
+  .addEventListener("click",()=>setLang("es"));
+
+document.getElementById("enBtn")
+  .addEventListener("click",()=>setLang("en"));
+
+loadPerfume();
+</script>
+
+</body>
+</html>
