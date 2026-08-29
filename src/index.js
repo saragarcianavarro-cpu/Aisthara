@@ -1,4 +1,4 @@
-export default {
+﻿export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
@@ -38,6 +38,61 @@ export default {
         WHERE active = 1
         ORDER BY created_at DESC
       `).all();
+
+      return Response.json(results);
+    }
+
+
+    // =====================================================
+    // PRECIOS / OFERTAS DE UN PERFUME
+    // =====================================================
+
+    const pricesMatch = url.pathname.match(
+      /^\/api\/perfumes\/(\d+)\/prices$/
+    );
+
+    if (pricesMatch && request.method === "GET") {
+      const perfumeId = Number(pricesMatch[1]);
+
+      const perfume = await env.DB.prepare(`
+        SELECT id
+        FROM perfumes
+        WHERE id = ?
+        AND active = 1
+      `)
+        .bind(perfumeId)
+        .first();
+
+      if (!perfume) {
+        return Response.json(
+          { error: "Perfume no encontrado" },
+          { status: 404 }
+        );
+      }
+
+      const { results } = await env.DB.prepare(`
+        SELECT
+          id,
+          perfume_id,
+          store,
+          advertiser_id,
+          product_name,
+          size_ml,
+          price,
+          old_price,
+          currency,
+          product_url,
+          affiliate_url,
+          availability,
+          source,
+          external_product_id,
+          updated_at
+        FROM perfume_prices
+        WHERE perfume_id = ?
+        ORDER BY price ASC, store ASC
+      `)
+        .bind(perfumeId)
+        .all();
 
       return Response.json(results);
     }
@@ -212,7 +267,6 @@ export default {
           );
         }
 
-        // Borrar imagen anterior si pertenecía a R2
         if (current.image_url?.startsWith("/images/")) {
           const oldKey = decodeURIComponent(
             current.image_url.replace("/images/", "")
@@ -340,7 +394,6 @@ async function saveImage(file, env) {
     };
   }
 
-  // Máximo 5 MB
   if (file.size > 5 * 1024 * 1024) {
     return {
       error: "La imagen no puede superar los 5 MB."
