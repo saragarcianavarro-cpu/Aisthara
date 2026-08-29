@@ -1100,7 +1100,7 @@ async function showResults() {
           : t("También encaja","Also a match");
 
       return `
-        <article class="card">
+        <article class="card" onclick="location.href='/perfume.html?id=${p.id}'" style="cursor:pointer;">
           <div class="cardImage">${image}</div>
 
           <span class="badge">${badge}</span>
